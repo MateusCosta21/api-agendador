@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreRoomRequest;
+use App\Http\Requests\UpdateRoomRequest;
 use App\Http\Resources\RoomResource;
 use App\Services\Room\RoomService;
 use Exception;
@@ -22,7 +23,7 @@ class RoomController extends Controller
             ->setStatusCode(Response::HTTP_CREATED);
     }
 
-    public function update(Request $request, int $id)
+    public function update(UpdateRoomRequest $request, int $id)
     {
         $room = $this->service->updateRoom($id, $request->all());
         return (new RoomResource($room))
