@@ -10,10 +10,11 @@ use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\Auth\EmailVerificationNotificationController;
 
 // 🛠 Rota protegida para obter usuário autenticado
-/*Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
+Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
     return $request->user();
-});*/
+});
 
+Route::middleware(['guest'])->group(function () {
     Route::post('/register', [RegisteredUserController::class, 'store'])
         ->name('register');
 
@@ -25,3 +26,4 @@ use App\Http\Controllers\Auth\EmailVerificationNotificationController;
 
     Route::post('/reset-password', [NewPasswordController::class, 'store'])
         ->name('password.store');
+});
