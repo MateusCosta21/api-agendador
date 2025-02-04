@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreRoomRequest;
 use App\Http\Resources\RoomResource;
 use App\Services\Room\RoomService;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+
 
 class RoomController extends Controller
 {
@@ -26,5 +28,18 @@ class RoomController extends Controller
         return (new RoomResource($room))
         ->response()
         ->setStatusCode(Response::HTTP_OK);
+    }
+    public function toggleStatusRoom(int $id)
+    {
+        try {
+            $room = $this->service->toggleStatusRoom($id);
+            return (new RoomResource($room))
+                ->response()
+                ->setStatusCode(Response::HTTP_OK);
+        } catch (Exception $e) {
+            return response()->json([
+                'error' => $e->getMessage()
+            ], Response::HTTP_BAD_REQUEST);
+        }
     }
 }

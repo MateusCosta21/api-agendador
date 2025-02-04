@@ -29,5 +29,22 @@ class RoomService
         DB::commit();
         return $this->repository->update(id: $room->id, data: $data);
     }
+    public function toggleStatusRoom(int $id)
+    {
+        DB::beginTransaction();
+        try {
+            $room = $this->repository->getById($id);
+            if (!$room) {
+                throw new Exception("O ID não existe");
+            }
+            $room->is_active = !$room->is_active;
+            $room->save();
+            DB::commit();
+            return $room;
+        } catch (Exception $e) {
+            DB::rollBack();
+            throw $e;
+        }
+    }
 
 }

@@ -35,6 +35,8 @@ Route::middleware(['auth'])->group(function () {
             ->name('room.store');
         Route::put('/{id}/update', [RoomController::class, 'update'])
             ->name('room.update');
+        Route::patch('/{id}/toggle-status', [RoomController::class, 'toggleStatusRoom'])
+            ->name('box.toggle-status');
 
     });
 });
