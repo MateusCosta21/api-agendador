@@ -8,6 +8,7 @@ use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\Auth\EmailVerificationNotificationController;
+use App\Http\Controllers\RoomController;
 
 // 🛠 Rota protegida para obter usuário autenticado
 Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
@@ -26,4 +27,12 @@ Route::middleware(['guest'])->group(function () {
 
     Route::post('/reset-password', [NewPasswordController::class, 'store'])
         ->name('password.store');
+});
+
+Route::middleware(['auth'])->group(function () {
+    Route::prefix('/rooms')->group(function () {
+        Route::post('/create', [RoomController::class, 'store'])
+            ->name('room.store');
+ 
+    });
 });
