@@ -19,4 +19,12 @@ class RoomController extends Controller
             ->response()
             ->setStatusCode(Response::HTTP_CREATED);
     }
+
+    public function update(Request $request, int $id)
+    {
+        $room = $this->service->updateRoom($id, $request->all());
+        return (new RoomResource($room))
+        ->response()
+        ->setStatusCode(Response::HTTP_OK);
+    }
 }

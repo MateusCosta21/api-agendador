@@ -33,6 +33,8 @@ Route::middleware(['auth'])->group(function () {
     Route::prefix('/rooms')->group(function () {
         Route::post('/create', [RoomController::class, 'store'])
             ->name('room.store');
- 
+        Route::put('/{id}/update', [RoomController::class, 'update'])
+            ->name('room.update');
+
     });
 });
