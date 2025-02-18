@@ -8,6 +8,7 @@ use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\Auth\EmailVerificationNotificationController;
+use App\Http\Controllers\MeetingController;
 use App\Http\Controllers\RoomController;
 
 // 🛠 Rota protegida para obter usuário autenticado
@@ -37,6 +38,13 @@ Route::middleware(['auth'])->group(function () {
             ->name('room.update');
         Route::patch('/{id}/toggle-status', [RoomController::class, 'toggleStatusRoom'])
             ->name('box.toggle-status');
+
+    });
+
+    Route::prefix('/meeting')->group(function () {
+        Route::post('/create', [MeetingController::class, 'store'])
+            ->name('meeting.store');
+
 
     });
 });
