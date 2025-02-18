@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreMeetingRequest;
+use App\Http\Requests\UpdateMeetingRequest;
 use App\Http\Resources\MeetingResource;
 use App\Services\Meeting\MeetingService;
 
@@ -20,6 +21,13 @@ class MeetingController extends Controller
         return (new MeetingResource($meeting))
         ->response()
         ->setStatusCode(Response::HTTP_CREATED);
+    }
+
+    public function update(UpdateMeetingRequest $request, int $id){
+        $meeting = $this->service->updateMeeting($id, $request->all());
+        return (new MeetingResource($meeting))
+        ->response()
+        ->setStatusCode(Response::HTTP_OK);
     }
 
 }

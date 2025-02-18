@@ -4,6 +4,7 @@ namespace App\Services\Meeting;
 
 use App\Repositories\MeetingRepository;
 use Illuminate\Support\Facades\DB;
+use Exception;
 use Illuminate\Validation\ValidationException;
 
 class MeetingService
@@ -23,6 +24,23 @@ class MeetingService
         $meeting = $this->repository->create($data);
         DB::commit();
         return $meeting;
+    }
+
+    public function updateMeeting(int $id, array $data){
+        DB::beginTransaction();
+        $meeting = $this->repository->getById($id);
+        if(!$meeting){
+            DB::rollBack();
+            throw new Exception("O id não existe");
+        }
+        $conflict = $this->repository->checkScheduleConflict($data['room_id'], $data['start_time'], $data['end_time']);
+        if ($conflict) {
+            throw ValidationException::withMessages([
+                'start_time' => 'O horário selecionado já está reservado para esta sala.',
+            ]);
+        }
+        DB::commit();
+        return $this->repository->update(id: $meeting->id, data: $data);
     }
 
 }

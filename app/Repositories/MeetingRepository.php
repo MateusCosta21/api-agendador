@@ -23,6 +23,7 @@ class MeetingRepository
     public function checkScheduleConflict($roomId, $startTime, $endTime)
     {
         return Meeting::where('room_id', $roomId)
+            ->where('status', '!=', 'canceled') 
             ->where(function ($query) use ($startTime, $endTime) {
                 $query->whereBetween('start_time', [$startTime, $endTime])
                       ->orWhereBetween('end_time', [$startTime, $endTime])

@@ -44,6 +44,8 @@ Route::middleware(['auth'])->group(function () {
     Route::prefix('/meeting')->group(function () {
         Route::post('/create', [MeetingController::class, 'store'])
             ->name('meeting.store');
+        Route::put('/{id}/update', [MeetingController::class, 'update'])
+            ->name('meeting.update');
 
 
     });
